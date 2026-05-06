@@ -1,6 +1,7 @@
 #import "LCAppDelegate.h"
 
 #define LC_MAX_HISTORY_ITEMS 20
+#define LC_MENU_TITLE_LIMIT 56
 
 @implementation LCAppDelegate
 
@@ -10,6 +11,7 @@
     if (self) {
         history = [[NSMutableArray alloc] init];
         lastChangeCount = -1;
+        capturePaused = NO;
     }
     return self;
 }
@@ -34,7 +36,7 @@
     lastChangeCount = [pasteboard changeCount];
 
     statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
-    [statusItem setTitle:@"Clip"];
+    [statusItem setTitle:@"LeoClip"];
     [statusItem setHighlightMode:YES];
     [statusItem setTarget:self];
     [statusItem setAction:@selector(showMenu:)];
@@ -51,29 +53,45 @@
                                                repeats:YES];
 }
 
-- (NSString *)menuTitleForString:(NSString *)string
+- (BOOL)stringHasUsefulContent:(NSString *)string
+{
+    if (!string) {
+        return NO;
+    }
+
+    NSString *trimmed = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return ([trimmed length] > 0);
+}
+
+- (NSString *)menuTitleForString:(NSString *)string index:(NSUInteger)index
 {
     NSString *title = [string stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     title = [title stringByReplacingOccurrencesOfString:@"\r" withString:@" "];
 
-    if ([title length] > 60) {
-        title = [[title substringToIndex:57] stringByAppendingString:@"..."];
+    if ([title length] > LC_MENU_TITLE_LIMIT) {
+        title = [[title substringToIndex:(LC_MENU_TITLE_LIMIT - 3)] stringByAppendingString:@"..."];
     }
 
     if ([title length] == 0) {
         title = @"(empty text)";
     }
 
-    return title;
+    return [NSString stringWithFormat:@"%lu. %@", (unsigned long)(index + 1), title];
 }
 
-- (void)rebuildMenu
+- (void)removeAllMenuItems
 {
     while ([statusMenu numberOfItems] > 0) {
         [statusMenu removeItemAtIndex:0];
     }
+}
 
-    NSMenuItem *titleItem = [[[NSMenuItem alloc] initWithTitle:@"LeoClip"
+- (void)rebuildMenu
+{
+    [self removeAllMenuItems];
+
+    NSString *title = capturePaused ? @"LeoClip - Paused" : @"LeoClip";
+    NSMenuItem *titleItem = [[[NSMenuItem alloc] initWithTitle:title
                                                         action:nil
                                                  keyEquivalent:@""] autorelease];
     [titleItem setEnabled:NO];
@@ -91,9 +109,9 @@
         NSUInteger index;
         for (index = 0; index < [history count]; index++) {
             NSString *clip = [history objectAtIndex:index];
-            NSString *title = [self menuTitleForString:clip];
+            NSString *itemTitle = [self menuTitleForString:clip index:index];
 
-            NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:title
+            NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:itemTitle
                                                            action:@selector(restoreClip:)
                                                     keyEquivalent:@""] autorelease];
             [item setTarget:self];
@@ -103,6 +121,13 @@
     }
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
+
+    NSString *pauseTitle = capturePaused ? @"Resume Capture" : @"Pause Capture";
+    NSMenuItem *pauseItem = [[[NSMenuItem alloc] initWithTitle:pauseTitle
+                                                        action:@selector(togglePause:)
+                                                 keyEquivalent:@""] autorelease];
+    [pauseItem setTarget:self];
+    [statusMenu addItem:pauseItem];
 
     NSMenuItem *clearItem = [[[NSMenuItem alloc] initWithTitle:@"Clear History"
                                                         action:@selector(clearHistory:)
@@ -136,16 +161,20 @@
 
     lastChangeCount = changeCount;
 
+    if (capturePaused) {
+        return;
+    }
+
     NSString *string = [pasteboard stringForType:NSStringPboardType];
-    if (!string || [string length] == 0) {
+    if (![self stringHasUsefulContent:string]) {
         return;
     }
 
-    if ([history count] > 0 && [[history objectAtIndex:0] isEqualToString:string]) {
-        return;
-    }
+    NSString *clip = [string copy];
 
-    [history insertObject:[[string copy] autorelease] atIndex:0];
+    [history removeObject:clip];
+    [history insertObject:clip atIndex:0];
+    [clip release];
 
     while ([history count] > LC_MAX_HISTORY_ITEMS) {
         [history removeLastObject];
@@ -171,6 +200,12 @@
 - (void)clearHistory:(id)sender
 {
     [history removeAllObjects];
+    [self rebuildMenu];
+}
+
+- (void)togglePause:(id)sender
+{
+    capturePaused = !capturePaused;
     [self rebuildMenu];
 }
 
