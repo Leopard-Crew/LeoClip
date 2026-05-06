@@ -135,7 +135,7 @@
             NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:itemTitle
                                                            action:@selector(restoreClip:)
                                                     keyEquivalent:keyEquivalent] autorelease];
-            [item setKeyEquivalentModifierMask:0];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
             [item setTarget:self];
             [item setRepresentedObject:clip];
             [statusMenu addItem:item];
