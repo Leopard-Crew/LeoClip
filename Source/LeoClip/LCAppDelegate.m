@@ -30,22 +30,28 @@
     [super dealloc];
 }
 
+- (void)updateStatusItemTitle
+{
+    unichar statusGlyph = capturePaused ? 0x29C8 : 0x29C9;
+    NSString *statusTitle = [NSString stringWithCharacters:&statusGlyph length:1];
+
+    NSFont *statusFont = [NSFont systemFontOfSize:21.0];
+    NSDictionary *statusAttributes = [NSDictionary dictionaryWithObject:statusFont
+                                                                 forKey:NSFontAttributeName];
+    NSAttributedString *attributedStatusTitle = [[[NSAttributedString alloc] initWithString:statusTitle
+                                                                                 attributes:statusAttributes] autorelease];
+
+    [statusItem setAttributedTitle:attributedStatusTitle];
+    [statusItem setLength:28.0];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     lastChangeCount = [pasteboard changeCount];
 
     statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
-    unichar statusGlyph = 0x29C9;
-    NSString *statusTitle = [NSString stringWithCharacters:&statusGlyph length:1];
-
-    NSFont *statusFont = [NSFont systemFontOfSize:21.0];
-    NSDictionary *statusAttributes = [NSDictionary dictionaryWithObject:statusFont
-             forKey:NSFontAttributeName];
-    NSAttributedString *attributedStatusTitle = [[[NSAttributedString alloc]         initWithString:statusTitle attributes:statusAttributes] autorelease];
-
-    [statusItem setAttributedTitle:attributedStatusTitle];
-    [statusItem setLength:28.0];
+    [self updateStatusItemTitle];
 
     [statusItem setHighlightMode:YES];
     [statusItem setTarget:self];
@@ -222,6 +228,7 @@
 - (void)togglePause:(id)sender
 {
     capturePaused = !capturePaused;
+    [self updateStatusItemTitle];
     [self rebuildMenu];
 }
 

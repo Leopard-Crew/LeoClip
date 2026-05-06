@@ -11,6 +11,7 @@
 }
 
 - (void)rebuildMenu;
+- (void)updateStatusItemTitle;
 - (void)showMenu:(id)sender;
 - (void)checkPasteboard:(NSTimer *)timer;
 - (void)restoreClip:(id)sender;
