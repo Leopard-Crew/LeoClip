@@ -121,9 +121,15 @@
             NSString *clip = [history objectAtIndex:index];
             NSString *itemTitle = [self menuTitleForString:clip index:index];
 
+            NSString *keyEquivalent = @"";
+            if (index < 9) {
+                keyEquivalent = [NSString stringWithFormat:@"%lu", (unsigned long)(index + 1)];
+            }
+
             NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:itemTitle
                                                            action:@selector(restoreClip:)
-                                                    keyEquivalent:@""] autorelease];
+                                                    keyEquivalent:keyEquivalent] autorelease];
+            [item setKeyEquivalentModifierMask:0];
             [item setTarget:self];
             [item setRepresentedObject:clip];
             [statusMenu addItem:item];
