@@ -144,7 +144,7 @@
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
-    NSString *pauseTitle = capturePaused ? @"Resume Capture" : @"Pause Capture";
+    NSString *pauseTitle = capturePaused ? @"Resume Clipboard History" : @"Pause Clipboard History";
     NSMenuItem *pauseItem = [[[NSMenuItem alloc] initWithTitle:pauseTitle
                                                         action:@selector(togglePause:)
                                                  keyEquivalent:@""] autorelease];
