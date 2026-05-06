@@ -85,5 +85,5 @@ This is intentional. The first goal is a small, stable Leopard PowerPC clipboard
 
 ## License
 
-LeoClip is derived from ClipMenu, which is MIT licensed.  
+LeoClip started as a ClipMenu source-tree exploration. The original ClipMenu material remains in this repository as MIT-licensed reference material. The active LeoClip target is a small, separate Leopard PowerPC implementation. 
 
