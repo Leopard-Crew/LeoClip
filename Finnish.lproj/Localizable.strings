@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(tyhjä teksti)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "Tietoja LeoClipistä";
+"Clear Clipboard History?" = "Tyhjennetäänkö leikepöydän historia?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Tämä poistaa kaikki LeoClipiin tallennetut leikkeet. Leikepöydän nykyistä sisältöä ei muuteta.";
+"Cancel" = "Peruuta";

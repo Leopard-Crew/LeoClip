@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(пустой текст)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "О LeoClip";
+"Clear Clipboard History?" = "Очистить историю буфера обмена?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Это удалит все фрагменты, сохранённые в LeoClip. Текущее содержимое буфера обмена не изменится.";
+"Cancel" = "Отменить";

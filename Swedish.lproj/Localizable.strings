@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(tom text)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "Om LeoClip";
+"Clear Clipboard History?" = "Rensa urklippshistorik?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Detta tar bort alla klipp som sparats i LeoClip. Det aktuella innehållet i urklipp ändras inte.";
+"Cancel" = "Avbryt";

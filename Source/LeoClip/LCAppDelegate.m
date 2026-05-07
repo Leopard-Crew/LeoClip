@@ -206,6 +206,10 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
                                             action:@selector(clearHistory:)
                                      keyEquivalent:@""];
 
+    NSMenuItem *aboutItem = [self menuItemWithTitle:NSLocalizedString(@"About LeoClip", nil)
+                                            action:@selector(showAbout:)
+                                     keyEquivalent:@""];
+
     NSMenuItem *quitItem = [self menuItemWithTitle:NSLocalizedString(@"Quit LeoClip", nil)
                                            action:@selector(quit:)
                                     keyEquivalent:@"q"];
@@ -217,6 +221,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     [statusMenu addItem:clearItem];
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
+    [statusMenu addItem:aboutItem];
     [statusMenu addItem:quitItem];
 }
 
@@ -262,8 +267,26 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 
 - (void)clearHistory:(id)sender
 {
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"Clear Clipboard History?", nil)];
+    [alert setInformativeText:NSLocalizedString(@"This removes all stored clips from LeoClip. The current clipboard contents are not changed.", nil)];
+
+    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Clear History", nil)];
+
+    if ([alert runModal] != NSAlertSecondButtonReturn) {
+        return;
+    }
+
     [history removeAllObjects];
     [self rebuildMenu];
+}
+
+- (void)showAbout:(id)sender
+{
+    [NSApp orderFrontStandardAboutPanel:sender];
 }
 
 - (void)togglePause:(id)sender

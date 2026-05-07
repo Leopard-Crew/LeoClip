@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(pusty tekst)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "O programie LeoClip";
+"Clear Clipboard History?" = "Wyczyścić historię schowka?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Spowoduje to usunięcie wszystkich klipów zapisanych w LeoClip. Bieżąca zawartość schowka nie zostanie zmieniona.";
+"Cancel" = "Anuluj";

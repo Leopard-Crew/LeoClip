@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "（空のテキスト）";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "LeoClip について";
+"Clear Clipboard History?" = "クリップボード履歴を消去しますか？";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "LeoClip に保存されているすべてのクリップを削除します。現在のクリップボードの内容は変更されません。";
+"Cancel" = "キャンセル";

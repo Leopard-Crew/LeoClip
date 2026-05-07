@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(lege tekst)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "Over LeoClip";
+"Clear Clipboard History?" = "Klembordgeschiedenis wissen?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Dit verwijdert alle clips die in LeoClip zijn opgeslagen. De huidige inhoud van het klembord wordt niet gewijzigd.";
+"Cancel" = "Annuleer";

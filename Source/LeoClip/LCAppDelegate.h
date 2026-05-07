@@ -18,6 +18,7 @@
 - (void)checkPasteboard:(NSTimer *)timer;
 - (void)restoreClip:(id)sender;
 - (void)clearHistory:(id)sender;
+- (void)showAbout:(id)sender;
 - (void)togglePause:(id)sender;
 - (void)quit:(id)sender;
 

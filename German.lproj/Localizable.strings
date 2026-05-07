@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(leerer Text)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "Über LeoClip";
+"Clear Clipboard History?" = "Zwischenablage-Verlauf löschen?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Dies entfernt alle in LeoClip gespeicherten Clips. Der aktuelle Inhalt der Zwischenablage wird nicht geändert.";
+"Cancel" = "Abbrechen";

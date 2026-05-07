@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(texto vacío)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "Acerca de LeoClip";
+"Clear Clipboard History?" = "¿Borrar el historial del portapapeles?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Esto elimina todos los clips guardados en LeoClip. El contenido actual del portapapeles no se modifica.";
+"Cancel" = "Cancelar";

@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(empty text)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "About LeoClip";
+"Clear Clipboard History?" = "Clear Clipboard History?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "This removes all stored clips from LeoClip. The current clipboard contents are not changed.";
+"Cancel" = "Cancel";

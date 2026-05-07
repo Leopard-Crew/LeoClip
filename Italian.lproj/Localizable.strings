@@ -22,3 +22,9 @@
 /* No comment provided by engineer. */
 "(empty text)" = "(testo vuoto)";
 
+
+/* About and Clear History confirmation */
+"About LeoClip" = "Informazioni su LeoClip";
+"Clear Clipboard History?" = "Cancellare la cronologia degli appunti?";
+"This removes all stored clips from LeoClip. The current clipboard contents are not changed." = "Questo rimuove tutti i clip memorizzati in LeoClip. Il contenuto corrente degli appunti non viene modificato.";
+"Cancel" = "Annulla";
