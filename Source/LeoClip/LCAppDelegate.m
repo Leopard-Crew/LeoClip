@@ -11,6 +11,18 @@ static const CGFloat LCStatusItemLength = 28.0;
 static const unichar LCStatusGlyphActive = 0x29C9;
 static const unichar LCStatusGlyphPaused = 0x29C8;
 
+@interface LCAppDelegate (PrivateMenu)
+
+- (NSMenuItem *)menuItemWithTitle:(NSString *)title
+                           action:(SEL)action
+                    keyEquivalent:(NSString *)keyEquivalent;
+
+- (void)addTitleItemToMenu;
+- (void)addHistoryItemsToMenu;
+- (void)addControlItemsToMenu;
+
+@end
+
 @implementation LCAppDelegate
 
 - (id)init
@@ -115,69 +127,107 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     }
 }
 
-- (void)rebuildMenu
+- (NSMenuItem *)menuItemWithTitle:(NSString *)title
+                           action:(SEL)action
+                    keyEquivalent:(NSString *)keyEquivalent
 {
-    [self removeAllMenuItems];
+    NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:title
+                                                   action:action
+                                            keyEquivalent:keyEquivalent] autorelease];
 
-    NSString *title = capturePaused ? NSLocalizedString(@"LeoClip - Paused", nil) : NSLocalizedString(@"LeoClip", nil);
+    [item setTarget:self];
+
+    return item;
+}
+
+- (void)addTitleItemToMenu
+{
+    NSString *title = capturePaused
+        ? NSLocalizedString(@"LeoClip - Paused", nil)
+        : NSLocalizedString(@"LeoClip", nil);
+
     NSMenuItem *titleItem = [[[NSMenuItem alloc] initWithTitle:title
                                                         action:nil
                                                  keyEquivalent:@""] autorelease];
+
     [titleItem setEnabled:NO];
+
     [statusMenu addItem:titleItem];
-
     [statusMenu addItem:[NSMenuItem separatorItem]];
+}
 
+- (void)addHistoryItemsToMenu
+{
     if ([history count] == 0) {
         NSMenuItem *emptyItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"No Clips", nil)
                                                             action:nil
                                                      keyEquivalent:@""] autorelease];
+
         [emptyItem setEnabled:NO];
         [statusMenu addItem:emptyItem];
-    } else {
-        NSUInteger index;
-        for (index = 0; index < [history count]; index++) {
-            NSString *clip = [history objectAtIndex:index];
-            NSString *itemTitle = [self menuTitleForString:clip index:index];
 
-            NSString *keyEquivalent = @"";
-            if (index < 9) {
-                keyEquivalent = [NSString stringWithFormat:@"%lu", (unsigned long)(index + 1)];
-            }
-
-            NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:itemTitle
-                                                           action:@selector(restoreClip:)
-                                                    keyEquivalent:keyEquivalent] autorelease];
-            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
-            [item setTarget:self];
-            [item setRepresentedObject:clip];
-            [statusMenu addItem:item];
-        }
+        return;
     }
 
-    [statusMenu addItem:[NSMenuItem separatorItem]];
+    NSUInteger index;
 
-    NSString *pauseTitle = capturePaused ? NSLocalizedString(@"Resume Clipboard History", nil) : NSLocalizedString(@"Pause Clipboard History", nil);
-    NSMenuItem *pauseItem = [[[NSMenuItem alloc] initWithTitle:pauseTitle
-                                                        action:@selector(togglePause:)
-                                                 keyEquivalent:@""] autorelease];
-    [pauseItem setTarget:self];
-    [statusMenu addItem:pauseItem];
+    for (index = 0; index < [history count]; index++) {
+        NSString *clip = [history objectAtIndex:index];
+        NSString *itemTitle = [self menuTitleForString:clip index:index];
+        NSString *keyEquivalent = @"";
 
-    NSMenuItem *clearItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Clear History", nil)
-                                                        action:@selector(clearHistory:)
-                                                 keyEquivalent:@""] autorelease];
-    [clearItem setTarget:self];
+        if (index < 9) {
+            keyEquivalent = [NSString stringWithFormat:@"%lu", (unsigned long)(index + 1)];
+        }
+
+        NSMenuItem *item = [self menuItemWithTitle:itemTitle
+                                           action:@selector(restoreClip:)
+                                    keyEquivalent:keyEquivalent];
+
+        if ([keyEquivalent length] > 0) {
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+
+        [item setRepresentedObject:clip];
+        [statusMenu addItem:item];
+    }
+}
+
+- (void)addControlItemsToMenu
+{
+    NSString *pauseTitle = capturePaused
+        ? NSLocalizedString(@"Resume Clipboard History", nil)
+        : NSLocalizedString(@"Pause Clipboard History", nil);
+
+    NSMenuItem *pauseItem = [self menuItemWithTitle:pauseTitle
+                                            action:@selector(togglePause:)
+                                     keyEquivalent:@""];
+
+    NSMenuItem *clearItem = [self menuItemWithTitle:NSLocalizedString(@"Clear History", nil)
+                                            action:@selector(clearHistory:)
+                                     keyEquivalent:@""];
+
+    NSMenuItem *quitItem = [self menuItemWithTitle:NSLocalizedString(@"Quit LeoClip", nil)
+                                           action:@selector(quit:)
+                                    keyEquivalent:@"q"];
+
     [clearItem setEnabled:([history count] > 0)];
+
+    [statusMenu addItem:[NSMenuItem separatorItem]];
+    [statusMenu addItem:pauseItem];
     [statusMenu addItem:clearItem];
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
-
-    NSMenuItem *quitItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit LeoClip", nil)
-                                                       action:@selector(quit:)
-                                                keyEquivalent:@"q"] autorelease];
-    [quitItem setTarget:self];
     [statusMenu addItem:quitItem];
+}
+
+- (void)rebuildMenu
+{
+    [self removeAllMenuItems];
+
+    [self addTitleItemToMenu];
+    [self addHistoryItemsToMenu];
+    [self addControlItemsToMenu];
 }
 
 - (void)showMenu:(id)sender
