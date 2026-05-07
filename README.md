@@ -113,14 +113,6 @@ LeoClip is intentionally small, but its code is split by responsibility:
 
 The app delegate orchestrates. The model and pasteboard bridge own their own logic.
 
-## History
-
-LeoClip started as a ClipMenu source-tree exploration. The current repository contains a separate, minimal Leopard PowerPC implementation.
-
-## License
-
-MIT License.
-
 ## Cupertino-2009 UX
 
 LeoClip follows native Leopard menu bar behavior where possible.
@@ -145,3 +137,12 @@ Clear History asks for confirmation before removing stored clips. The menu item 
 LeoClip activates itself before showing About or Clear History dialogs, so those windows appear in front of other applications.
 
 Clipboard history remains in memory only.
+
+## History
+
+LeoClip started as a ClipMenu source-tree exploration. The current repository contains a separate, minimal Leopard PowerPC implementation.
+
+## License
+
+MIT License.
+
