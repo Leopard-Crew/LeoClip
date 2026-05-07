@@ -39,10 +39,12 @@ This is intentional.
 
 LeoClip uses compact Unicode status glyphs instead of image resources:
 
-- normal: Clipboard History active
-- paused: Clipboard History paused
+| State | Glyph | Meaning |
+|---|---:|---|
+| Active | ⧉ | Clipboard history is recording |
+| Paused | ⧈ | Clipboard history is paused |
 
-This keeps the menu bar item small and avoids additional image assets.
+This keeps the menu bar item small, scalable, and resource-free.
 
 ## Localization
 
