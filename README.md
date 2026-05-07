@@ -36,7 +36,7 @@ Design rule:
 
 ## Download
 
-Get the latest DMG from the GitHub Releases page.
+Download the latest `LeoClip-0.7.1-Leopard-PPC.dmg` from the GitHub Releases page.
 
 ## Status Item
 
@@ -84,7 +84,7 @@ LeoClip activates itself before showing About or Clear History dialogs, so those
 
 ```text
 Source/LeoClip/        active LeoClip source
-*.lproj/               localized strings
+*.lproj/               localized Cocoa resources, kept at project root for Xcode 3.1 compatibility
 assets/images/         README and release images
 docs/                  project notes
 tests/                 command-line smoke tests
@@ -164,7 +164,7 @@ Not included:
 
 ## License
 
-MIT License.
+LeoClip is released under the MIT License.
 
 ## History
 
