@@ -19,6 +19,14 @@ Design rule:
 - keeps history in memory only
 - uses localized menu strings
 
+<p align="center">
+  <img src="assets/images/leoclip-screenshot.png" alt="LeoClip status menu with clipboard history" width="520">
+</p>
+
+<p align="center">
+  <em>LeoClip status menu with clipboard history on Mac OS X Leopard.</em>
+</p>
+
 ## Privacy
 
 LeoClip keeps clipboard history in memory only.
