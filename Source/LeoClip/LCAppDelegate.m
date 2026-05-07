@@ -19,7 +19,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
                            action:(SEL)action
                     keyEquivalent:(NSString *)keyEquivalent;
 
-- (void)addTitleItemToMenu;
+- (void)addAboutItemToMenu;
 - (void)addHistoryItemsToMenu;
 - (void)addControlItemsToMenu;
 
@@ -139,19 +139,13 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     return item;
 }
 
-- (void)addTitleItemToMenu
+- (void)addAboutItemToMenu
 {
-    NSString *title = capturePaused
-        ? NSLocalizedString(@"LeoClip - Paused", nil)
-        : NSLocalizedString(@"LeoClip", nil);
+    NSMenuItem *aboutItem = [self menuItemWithTitle:NSLocalizedString(@"About LeoClip", nil)
+                                            action:@selector(showAbout:)
+                                     keyEquivalent:@""];
 
-    NSMenuItem *titleItem = [[[NSMenuItem alloc] initWithTitle:title
-                                                        action:nil
-                                                 keyEquivalent:@""] autorelease];
-
-    [titleItem setEnabled:NO];
-
-    [statusMenu addItem:titleItem];
+    [statusMenu addItem:aboutItem];
     [statusMenu addItem:[NSMenuItem separatorItem]];
 }
 
@@ -206,10 +200,6 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
                                             action:@selector(clearHistory:)
                                      keyEquivalent:@""];
 
-    NSMenuItem *aboutItem = [self menuItemWithTitle:NSLocalizedString(@"About LeoClip", nil)
-                                            action:@selector(showAbout:)
-                                     keyEquivalent:@""];
-
     NSMenuItem *quitItem = [self menuItemWithTitle:NSLocalizedString(@"Quit LeoClip", nil)
                                            action:@selector(quit:)
                                     keyEquivalent:@"q"];
@@ -221,7 +211,6 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     [statusMenu addItem:clearItem];
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
-    [statusMenu addItem:aboutItem];
     [statusMenu addItem:quitItem];
 }
 
@@ -229,7 +218,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 {
     [self removeAllMenuItems];
 
-    [self addTitleItemToMenu];
+    [self addAboutItemToMenu];
     [self addHistoryItemsToMenu];
     [self addControlItemsToMenu];
 }
