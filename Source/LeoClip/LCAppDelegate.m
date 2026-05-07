@@ -1,7 +1,15 @@
 #import "LCAppDelegate.h"
 
-#define LC_MAX_HISTORY_ITEMS 20
-#define LC_MENU_TITLE_LIMIT 56
+static const NSUInteger LCMaxHistoryItems = 20;
+static const NSUInteger LCMenuTitleLimit = 56;
+
+static const NSTimeInterval LCPasteboardPollInterval = 0.5;
+
+static const CGFloat LCStatusGlyphFontSize = 21.0;
+static const CGFloat LCStatusItemLength = 28.0;
+
+static const unichar LCStatusGlyphActive = 0x29C9;
+static const unichar LCStatusGlyphPaused = 0x29C8;
 
 @implementation LCAppDelegate
 
@@ -32,17 +40,17 @@
 
 - (void)updateStatusItemTitle
 {
-    unichar statusGlyph = capturePaused ? 0x29C8 : 0x29C9;
+    unichar statusGlyph = capturePaused ? LCStatusGlyphPaused : LCStatusGlyphActive;
     NSString *statusTitle = [NSString stringWithCharacters:&statusGlyph length:1];
 
-    NSFont *statusFont = [NSFont systemFontOfSize:21.0];
+    NSFont *statusFont = [NSFont systemFontOfSize:LCStatusGlyphFontSize];
     NSDictionary *statusAttributes = [NSDictionary dictionaryWithObject:statusFont
                                                                  forKey:NSFontAttributeName];
     NSAttributedString *attributedStatusTitle = [[[NSAttributedString alloc] initWithString:statusTitle
                                                                                  attributes:statusAttributes] autorelease];
 
     [statusItem setAttributedTitle:attributedStatusTitle];
-    [statusItem setLength:28.0];
+    [statusItem setLength:LCStatusItemLength];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
@@ -62,7 +70,12 @@
 
     [self rebuildMenu];
 
-    pollTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+    /*
+     NSPasteboard has no simple Leopard-era notification hook for general
+     clipboard changes. Polling changeCount is intentional here: small,
+     deterministic, and sufficient for a lightweight menu bar tool.
+     */
+    pollTimer = [NSTimer scheduledTimerWithTimeInterval:LCPasteboardPollInterval
                                                 target:self
                                               selector:@selector(checkPasteboard:)
                                               userInfo:nil
@@ -84,8 +97,8 @@
     NSString *title = [string stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     title = [title stringByReplacingOccurrencesOfString:@"\r" withString:@" "];
 
-    if ([title length] > LC_MENU_TITLE_LIMIT) {
-        title = [[title substringToIndex:(LC_MENU_TITLE_LIMIT - 3)] stringByAppendingString:@"..."];
+    if ([title length] > LCMenuTitleLimit) {
+        title = [[title substringToIndex:(LCMenuTitleLimit - 3)] stringByAppendingString:@"..."];
     }
 
     if ([title length] == 0) {
@@ -198,7 +211,7 @@
     [history insertObject:clip atIndex:0];
     [clip release];
 
-    while ([history count] > LC_MAX_HISTORY_ITEMS) {
+    while ([history count] > LCMaxHistoryItems) {
         [history removeLastObject];
     }
 
