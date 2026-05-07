@@ -2,7 +2,7 @@
 set -e
 
 APP_NAME="LeoClip"
-VERSION="0.5.0"
+VERSION="0.6.0"
 VOLUME_NAME="${APP_NAME} ${VERSION}"
 DMG_NAME="${APP_NAME}-${VERSION}-Leopard-PPC.dmg"
 
