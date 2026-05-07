@@ -18,7 +18,6 @@ Design rule:
   <em>LeoClip status menu with clipboard history on Mac OS X Leopard.</em>
 </p>
 
-
 ## Features
 
 - remembers recent text clipboard entries
@@ -29,6 +28,10 @@ Design rule:
 - shows a distinct paused status glyph
 - keeps history in memory only
 - uses localized menu strings
+
+## Download
+
+Get the latest DMG from the GitHub Releases page.
 
 ## Status Item
 
