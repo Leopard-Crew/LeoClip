@@ -13,9 +13,17 @@ STAGE_DIR="$DIST_DIR/${APP_NAME}-${VERSION}"
 
 APP_PATH="$BUILD_DIR/${APP_NAME}.app"
 DMG_PATH="$DIST_DIR/$DMG_NAME"
+CHECKSUM_PATH="$DMG_PATH.sha256"
 
 echo "Preparing LeoClip DMG..."
 echo "Root: $ROOT_DIR"
+echo "Version: $VERSION"
+
+if ! command -v hdiutil >/dev/null 2>&1; then
+    echo "Error: hdiutil not found."
+    echo "DMG creation must be run on Mac OS X, not on Linux."
+    exit 1
+fi
 
 if [ ! -d "$APP_PATH" ]; then
     echo "Error: $APP_PATH not found."
@@ -28,11 +36,13 @@ rm -rf "$STAGE_DIR"
 mkdir -p "$STAGE_DIR"
 mkdir -p "$DIST_DIR"
 
+# Remove stale current-version artifacts before creating new ones.
+rm -f "$DMG_PATH"
+rm -f "$CHECKSUM_PATH"
+
 cp -R "$APP_PATH" "$STAGE_DIR/"
 cp "$ROOT_DIR/README.md" "$STAGE_DIR/"
 cp "$ROOT_DIR/LICENSE" "$STAGE_DIR/"
-
-rm -f "$DMG_PATH"
 
 hdiutil create \
     -volname "$VOLUME_NAME" \
@@ -41,5 +51,19 @@ hdiutil create \
     -format UDZO \
     "$DMG_PATH"
 
+if [ ! -f "$DMG_PATH" ]; then
+    echo "Error: expected DMG was not created:"
+    echo "$DMG_PATH"
+    exit 1
+fi
+
+echo "Creating SHA-256 checksum..."
+
+(
+    cd "$DIST_DIR"
+    shasum -a 256 "$DMG_NAME" > "$DMG_NAME.sha256"
+)
+
 echo "Created:"
 echo "$DMG_PATH"
+echo "$CHECKSUM_PATH"
