@@ -1,10 +1,12 @@
 #import <Cocoa/Cocoa.h>
 
+@class LCClipboardHistory;
+
 @interface LCAppDelegate : NSObject
 {
     NSStatusItem *statusItem;
     NSMenu *statusMenu;
-    NSMutableArray *history;
+    LCClipboardHistory *history;
     NSInteger lastChangeCount;
     NSTimer *pollTimer;
     BOOL capturePaused;
@@ -12,7 +14,6 @@
 
 - (void)rebuildMenu;
 - (void)updateStatusItemTitle;
-- (void)showMenu:(id)sender;
 - (void)checkPasteboard:(NSTimer *)timer;
 - (void)restoreClip:(id)sender;
 - (void)clearHistory:(id)sender;

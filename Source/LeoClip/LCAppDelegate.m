@@ -1,4 +1,5 @@
 #import "LCAppDelegate.h"
+#import "LCClipboardHistory.h"
 
 static const NSUInteger LCMaxHistoryItems = 20;
 static const NSUInteger LCMenuTitleLimit = 56;
@@ -29,7 +30,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 {
     self = [super init];
     if (self) {
-        history = [[NSMutableArray alloc] init];
+        history = [[LCClipboardHistory alloc] initWithLimit:LCMaxHistoryItems];
         lastChangeCount = -1;
         capturePaused = NO;
     }
@@ -74,13 +75,12 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     [self updateStatusItemTitle];
 
     [statusItem setHighlightMode:YES];
-    [statusItem setTarget:self];
-    [statusItem setAction:@selector(showMenu:)];
-    [statusItem setEnabled:YES];
+    [statusItem setToolTip:@"LeoClip"];
 
     statusMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"LeoClip", nil)];
 
     [self rebuildMenu];
+    [statusItem setMenu:statusMenu];
 
     /*
      NSPasteboard has no simple Leopard-era notification hook for general
@@ -230,10 +230,6 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     [self addControlItemsToMenu];
 }
 
-- (void)showMenu:(id)sender
-{
-    [statusItem popUpStatusItemMenu:statusMenu];
-}
 
 - (void)checkPasteboard:(NSTimer *)timer
 {
@@ -255,15 +251,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
         return;
     }
 
-    NSString *clip = [string copy];
-
-    [history removeObject:clip];
-    [history insertObject:clip atIndex:0];
-    [clip release];
-
-    while ([history count] > LCMaxHistoryItems) {
-        [history removeLastObject];
-    }
+    [history addString:string];
 
     [self rebuildMenu];
 }
