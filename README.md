@@ -29,6 +29,11 @@ Design rule:
 - keeps history in memory only
 - uses localized menu strings
 
+## Requirements
+
+- Mac OS X 10.5.8 Leopard
+- PowerPC Mac
+
 ## Download
 
 Get the latest DMG from the GitHub Releases page.
