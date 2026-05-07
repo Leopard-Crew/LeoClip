@@ -98,6 +98,21 @@ LeoClip.xcodeproj/     Xcode 3.1.4 project
 Info.plist             application bundle metadata
 ```
 
+## Internal Structure
+
+LeoClip is intentionally small, but its code is split by responsibility:
+
+    LCAppDelegate
+      App lifecycle, status item, menu construction, timer orchestration.
+
+    LCClipboardHistory
+      In-memory clipboard history model, duplicate handling, history limit, clear behavior.
+
+    LCPasteboardMonitor
+      Leopard pasteboard bridge, changeCount tracking, text extraction, restore synchronization.
+
+The app delegate orchestrates. The model and pasteboard bridge own their own logic.
+
 ## History
 
 LeoClip started as a ClipMenu source-tree exploration. The current repository contains a separate, minimal Leopard PowerPC implementation.

@@ -216,5 +216,45 @@ a cloud service
 a general productivity framework
 ```
 
-Small is a feature.  
+Small is a feature.
+## Current Class Roles
+
+The current LeoClip source layout follows these roles:
+
+    LCAppDelegate
+      Cocoa orchestration:
+      - app lifecycle
+      - status item
+      - menu construction
+      - timer callback
+      - command actions
+
+    LCClipboardHistory
+      Data model:
+      - in-memory clip storage
+      - duplicate handling
+      - history limit
+      - clear behavior
+
+    LCPasteboardMonitor
+      System bridge:
+      - NSPasteboard reference
+      - changeCount tracking
+      - current string extraction
+      - pasteboard restore
+
+LCAppDelegate may know that these collaborators exist. It should not reimplement their internal rules.
+
+## Script Roles
+
+    tools/smoke_test_history.sh
+      Builds and runs the LCClipboardHistory command-line smoke test.
+
+    tools/make_dmg.sh
+      Creates the release DMG and matching SHA-256 file.
+
+    tools/release_check.sh
+      Runs the complete release verification sequence.
+
+Scripts should fail early, print clear errors, and avoid creating mismatched release artifacts.
 
