@@ -258,3 +258,37 @@ LCAppDelegate may know that these collaborators exist. It should not reimplement
 
 Scripts should fail early, print clear errors, and avoid creating mismatched release artifacts.
 
+## Dialog and Menu Rules
+
+LeoClip uses native Cocoa UI elements.
+
+About panels:
+
+    Use NSApp orderFrontStandardAboutPanel.
+    Do not create a custom About window unless the standard panel becomes insufficient.
+    Place About LeoClip first in the status menu, separated from the rest of the menu.
+
+Alerts:
+
+    Use NSAlert for destructive confirmations.
+    Activate the app before showing alerts from a menu bar item.
+    Keep alert text short and specific.
+    Prefer Cancel as the safe path.
+
+Ellipses:
+
+    Do not add an ellipsis merely because an alert appears.
+    Use an ellipsis only when the command needs additional user input before it can complete.
+
+Status menu order:
+
+    About LeoClip
+    separator
+    clipboard history items
+    separator
+    pause or resume
+    clear history
+    separator
+    quit
+
+Dialogs and panels should be ordinary Leopard Cocoa UI, not custom-drawn substitutes.

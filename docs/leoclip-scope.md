@@ -111,3 +111,33 @@ Manual UI smoke testing remains intentionally small:
     clear history
     quit
 
+## Version 0.7.0 UX Scope
+
+LeoClip 0.7.0 adds Mac-style polish without changing the core product scope.
+
+Added behavior:
+
+    About LeoClip
+      First item in the status menu.
+      Separated from the rest of the menu.
+      Uses the standard Cocoa About panel.
+
+    Clear History confirmation
+      Clear History remains without an ellipsis.
+      The confirmation alert explains that LeoClip's stored clips are removed.
+      The current clipboard contents are not changed.
+      Cancel leaves the history untouched.
+
+    Frontmost dialogs
+      LeoClip activates itself before opening About or Clear History dialogs.
+      This avoids panels appearing behind other application windows.
+
+Still out of scope:
+
+    preferences window
+    persistent history
+    sync
+    network features
+    custom About window
+    custom alert UI
+    "do not ask again" setting

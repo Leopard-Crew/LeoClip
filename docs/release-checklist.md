@@ -94,5 +94,22 @@ Use:
 
 LeoClip keeps clipboard history in memory only.
 
-Release work must not add persistence, sync, network behavior, telemetry, or updater behavior unless explicitly documented and intentionally accepted.  
+Release work must not add persistence, sync, network behavior, telemetry, or updater behavior unless explicitly documented and intentionally accepted.
 
+## 0.7.0 Manual UX Checks
+
+After running tools/release_check.sh, verify the status menu manually:
+
+    About LeoClip is the first menu item.
+    About LeoClip is separated from the rest of the menu.
+    About opens the standard Cocoa About panel.
+    The About panel appears in front of other application windows.
+    The copyright text appears on two lines.
+    Clear History has no ellipsis.
+    Clear History asks for confirmation before deleting stored clips.
+    Cancel leaves history untouched.
+    Clear History removes stored clips only after confirmation.
+    The current clipboard contents are not changed by clearing history.
+    Quit LeoClip remains the last menu item.
+
+This manual check exists because Leopard does not reliably expose third-party NSStatusItem menus through System Events UI scripting.

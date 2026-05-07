@@ -119,5 +119,29 @@ LeoClip started as a ClipMenu source-tree exploration. The current repository co
 
 ## License
 
-MIT License.  
+MIT License.
 
+## Cupertino-2009 UX
+
+LeoClip follows native Leopard menu bar behavior where possible.
+
+The status menu is intentionally small:
+
+    About LeoClip
+    -
+    Clipboard history items
+    -
+    Pause or Resume Clipboard History
+    Clear History
+    -
+    Quit LeoClip
+
+About LeoClip is placed first as a separated item, matching classic Mac application-menu expectations.
+
+The About window uses Cocoa's standard About panel instead of a custom window.
+
+Clear History asks for confirmation before removing stored clips. The menu item does not use an ellipsis because the alert is a warning/confirmation step, not a request for additional information needed to complete the command.
+
+LeoClip activates itself before showing About or Clear History dialogs, so those windows appear in front of other applications.
+
+Clipboard history remains in memory only.
