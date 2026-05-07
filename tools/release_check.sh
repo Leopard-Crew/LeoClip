@@ -39,6 +39,17 @@ fi
 
 cd "$ROOT_DIR"
 
+COMMIT_SHORT="unknown"
+COMMIT_FULL="unknown"
+
+if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    COMMIT_SHORT="$(git rev-parse --short HEAD)"
+    COMMIT_FULL="$(git rev-parse HEAD)"
+fi
+
+echo "Commit: $COMMIT_SHORT"
+echo
+
 echo "1. Checking Git working tree..."
 if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     GIT_STATUS="$(git status --porcelain --untracked-files=normal)"
@@ -78,6 +89,23 @@ if [ "$INFO_VERSION" != "$SCRIPT_VERSION" ]; then
 fi
 
 VERSION="$INFO_VERSION"
+
+if [ "$REQUIRE_TAG" = "1" ]; then
+    EXPECTED_TAG="v$VERSION"
+
+    if ! command -v git >/dev/null 2>&1 || ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        fail "REQUIRE_TAG=1 was set, but git is not available or this is not a Git working tree."
+    fi
+
+    if ! git tag --points-at HEAD | grep -x "$EXPECTED_TAG" >/dev/null 2>&1; then
+        echo "Tags on HEAD:"
+        git tag --points-at HEAD
+        fail "HEAD is not tagged as $EXPECTED_TAG."
+    fi
+
+    echo "Release tag verified: $EXPECTED_TAG"
+fi
+
 EXPECTED_DMG="$ROOT_DIR/dist/$APP_NAME-$VERSION-Leopard-PPC.dmg"
 EXPECTED_SHA="$EXPECTED_DMG.sha256"
 
@@ -122,6 +150,14 @@ xcodebuild -project LeoClip.xcodeproj \
 if [ ! -d "$APP_PATH" ]; then
     fail "expected app bundle was not created: $APP_PATH"
 fi
+
+BUILT_VERSION="$("$PLISTBUDDY" -c "Print :CFBundleShortVersionString" "$APP_PATH/Contents/Info.plist")"
+
+if [ "$BUILT_VERSION" != "$VERSION" ]; then
+    fail "built app bundle version '$BUILT_VERSION' does not match release version '$VERSION'."
+fi
+
+echo "Built app bundle version: $BUILT_VERSION"
 
 echo "7. Running clipboard history smoke test..."
 tools/smoke_test_history.sh
@@ -175,5 +211,6 @@ cat "$EXPECTED_SHA"
 echo
 echo "LeoClip release check passed."
 echo "Version: $VERSION"
+echo "Commit: $COMMIT_SHORT"
 echo "DMG: $EXPECTED_DMG"
 echo "SHA: $EXPECTED_SHA"
