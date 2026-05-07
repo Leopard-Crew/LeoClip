@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		257FA0D212073DFA39E9A111 /* LCPasteboardMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 54928CF424F03ACAB6BCC41B /* LCPasteboardMonitor.m */; };
 		E020E1A7EB05C13FD3C11817 /* LCClipboardHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 08314A31651FC0161DA8A930 /* LCClipboardHistory.m */; };
 		2D545C232EDAC7B3ED2798D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCAE9F841A676F016415F6D0 /* InfoPlist.strings */; };
 		849F9D962FABA8930030C782 /* LCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 849F9D942FABA8930030C782 /* LCAppDelegate.m */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		587C9F42FF3851B54D3F91D5 /* LCPasteboardMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCPasteboardMonitor.h; path = Source/LeoClip/LCPasteboardMonitor.h; sourceTree = "<group>"; };
+		54928CF424F03ACAB6BCC41B /* LCPasteboardMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCPasteboardMonitor.m; path = Source/LeoClip/LCPasteboardMonitor.m; sourceTree = "<group>"; };
 		5E710AC557001796F131A24B /* LCClipboardHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCClipboardHistory.h; path = Source/LeoClip/LCClipboardHistory.h; sourceTree = "<group>"; };
 		08314A31651FC0161DA8A930 /* LCClipboardHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCClipboardHistory.m; path = Source/LeoClip/LCClipboardHistory.m; sourceTree = "<group>"; };
 		BC8D908B76F5AE06B7D3705C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				849F9D932FABA8930030C782 /* LCAppDelegate.h */,
 				5E710AC557001796F131A24B /* LCClipboardHistory.h */,
 				08314A31651FC0161DA8A930 /* LCClipboardHistory.m */,
+				587C9F42FF3851B54D3F91D5 /* LCPasteboardMonitor.h */,
+				54928CF424F03ACAB6BCC41B /* LCPasteboardMonitor.m */,
 				849F9D942FABA8930030C782 /* LCAppDelegate.m */,
 				849F9D952FABA8930030C782 /* main.m */,
 			);
@@ -219,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				257FA0D212073DFA39E9A111 /* LCPasteboardMonitor.m in Sources */,
 				E020E1A7EB05C13FD3C11817 /* LCClipboardHistory.m in Sources */,
 				849F9D962FABA8930030C782 /* LCAppDelegate.m in Sources */,
 				849F9D972FABA8930030C782 /* main.m in Sources */,

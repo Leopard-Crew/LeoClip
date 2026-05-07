@@ -1,13 +1,14 @@
 #import <Cocoa/Cocoa.h>
 
 @class LCClipboardHistory;
+@class LCPasteboardMonitor;
 
 @interface LCAppDelegate : NSObject
 {
     NSStatusItem *statusItem;
     NSMenu *statusMenu;
     LCClipboardHistory *history;
-    NSInteger lastChangeCount;
+    LCPasteboardMonitor *pasteboardMonitor;
     NSTimer *pollTimer;
     BOOL capturePaused;
 }

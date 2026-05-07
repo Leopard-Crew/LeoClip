@@ -1,5 +1,6 @@
 #import "LCAppDelegate.h"
 #import "LCClipboardHistory.h"
+#import "LCPasteboardMonitor.h"
 
 static const NSUInteger LCMaxHistoryItems = 20;
 static const NSUInteger LCMenuTitleLimit = 56;
@@ -31,7 +32,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
     self = [super init];
     if (self) {
         history = [[LCClipboardHistory alloc] initWithLimit:LCMaxHistoryItems];
-        lastChangeCount = -1;
+        pasteboardMonitor = [[LCPasteboardMonitor alloc] initWithPasteboard:[NSPasteboard generalPasteboard]];
         capturePaused = NO;
     }
     return self;
@@ -41,6 +42,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 {
     [pollTimer invalidate];
     [history release];
+    [pasteboardMonitor release];
     [statusMenu release];
 
     if (statusItem) {
@@ -68,9 +70,6 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    lastChangeCount = [pasteboard changeCount];
-
     statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
     [self updateStatusItemTitle];
 
@@ -233,20 +232,15 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 
 - (void)checkPasteboard:(NSTimer *)timer
 {
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    NSInteger changeCount = [pasteboard changeCount];
-
-    if (changeCount == lastChangeCount) {
+    if (![pasteboardMonitor consumeChangeIfNeeded]) {
         return;
     }
-
-    lastChangeCount = changeCount;
 
     if (capturePaused) {
         return;
     }
 
-    NSString *string = [pasteboard stringForType:NSStringPboardType];
+    NSString *string = [pasteboardMonitor currentString];
     if (![self stringHasUsefulContent:string]) {
         return;
     }
@@ -263,11 +257,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
         return;
     }
 
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-    [pasteboard setString:clip forType:NSStringPboardType];
-
-    lastChangeCount = [pasteboard changeCount];
+    [pasteboardMonitor writeStringAndSynchronize:clip];
 }
 
 - (void)clearHistory:(id)sender
