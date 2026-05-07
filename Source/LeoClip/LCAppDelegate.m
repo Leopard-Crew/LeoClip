@@ -58,7 +58,7 @@
     [statusItem setAction:@selector(showMenu:)];
     [statusItem setEnabled:YES];
 
-    statusMenu = [[NSMenu alloc] initWithTitle:@"LeoClip"];
+    statusMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"LeoClip", nil)];
 
     [self rebuildMenu];
 
@@ -89,7 +89,7 @@
     }
 
     if ([title length] == 0) {
-        title = @"(empty text)";
+        title = NSLocalizedString(@"(empty text)", nil);
     }
 
     return [NSString stringWithFormat:@"%lu. %@", (unsigned long)(index + 1), title];
@@ -106,7 +106,7 @@
 {
     [self removeAllMenuItems];
 
-    NSString *title = capturePaused ? @"LeoClip - Paused" : @"LeoClip";
+    NSString *title = capturePaused ? NSLocalizedString(@"LeoClip - Paused", nil) : NSLocalizedString(@"LeoClip", nil);
     NSMenuItem *titleItem = [[[NSMenuItem alloc] initWithTitle:title
                                                         action:nil
                                                  keyEquivalent:@""] autorelease];
@@ -116,7 +116,7 @@
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
     if ([history count] == 0) {
-        NSMenuItem *emptyItem = [[[NSMenuItem alloc] initWithTitle:@"No clips yet"
+        NSMenuItem *emptyItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"No Clips", nil)
                                                             action:nil
                                                      keyEquivalent:@""] autorelease];
         [emptyItem setEnabled:NO];
@@ -144,14 +144,14 @@
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
-    NSString *pauseTitle = capturePaused ? @"Resume Clipboard History" : @"Pause Clipboard History";
+    NSString *pauseTitle = capturePaused ? NSLocalizedString(@"Resume Clipboard History", nil) : NSLocalizedString(@"Pause Clipboard History", nil);
     NSMenuItem *pauseItem = [[[NSMenuItem alloc] initWithTitle:pauseTitle
                                                         action:@selector(togglePause:)
                                                  keyEquivalent:@""] autorelease];
     [pauseItem setTarget:self];
     [statusMenu addItem:pauseItem];
 
-    NSMenuItem *clearItem = [[[NSMenuItem alloc] initWithTitle:@"Clear History"
+    NSMenuItem *clearItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Clear History", nil)
                                                         action:@selector(clearHistory:)
                                                  keyEquivalent:@""] autorelease];
     [clearItem setTarget:self];
@@ -160,7 +160,7 @@
 
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
-    NSMenuItem *quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit LeoClip"
+    NSMenuItem *quitItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit LeoClip", nil)
                                                        action:@selector(quit:)
                                                 keyEquivalent:@"q"] autorelease];
     [quitItem setTarget:self];
