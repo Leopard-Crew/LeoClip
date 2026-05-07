@@ -256,6 +256,8 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 
 - (void)clearHistory:(id)sender
 {
+    [NSApp activateIgnoringOtherApps:YES];
+
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 
     [alert setAlertStyle:NSWarningAlertStyle];
@@ -275,6 +277,7 @@ static const unichar LCStatusGlyphPaused = 0x29C8;
 
 - (void)showAbout:(id)sender
 {
+    [NSApp activateIgnoringOtherApps:YES];
     [NSApp orderFrontStandardAboutPanel:sender];
 }
 
