@@ -20,7 +20,7 @@ Design rule:
 - uses localized menu strings
 
 <p align="center">
-  <img src="assets/images/leoclip-screenshot.png" alt="LeoClip status menu with clipboard history" width="520">
+  <img src="assets/images/LeoClip.png" alt="LeoClip status menu with clipboard history" width="520">
 </p>
 
 <p align="center">
